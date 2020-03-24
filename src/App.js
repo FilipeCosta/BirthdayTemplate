@@ -1,24 +1,121 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import Cake from './components/cake/cake'
+import Fade from './components/fade/fade'
+import Baloon from './components/baloon/baloon'
 
-function App() {
+import LetterPage from './components/letter/letterPage'
+import VideoPage from './components/video/videoPage'
+import PhotosPage from './components/photos/photosPage'
+
+import styled from 'styled-components';
+
+const BallonWrapper = styled.div`
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+
+  @media (min-width: 768px) {
+    left: 60%;
+    position: absolute;
+    top: 25%;
+    transform: translate(-50%, -50%);
+    flex-direction: row;
+    height: 100%;
+  }
+
+  justify-content:center;
+  align-items: center;
+`
+
+const pages = {
+  VIDEO: 'video',
+  PHOTOS: 'photos',
+  LETTER: 'letter',
+}
+
+const App = () => {
+  const [presentPage, setPresentPage] = useState(false)
+  const [showPage, setShowPage] = useState(null)
+
+  const handleFadeCakePage = () => {
+    setPresentPage(true)
+  }
+
+  const _handleBaloonClick = (page) => {
+    setShowPage(page)
+  }
+
+  const handleBackClick = () => {
+    setShowPage(null)
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Fade show={presentPage}>
+        <Cake handleFadeCakePage={handleFadeCakePage} />
+      </Fade>
+      <Fade show={!presentPage && !showPage}>
+        <BallonWrapper>
+          <Baloon handleBaloonClick={() => _handleBaloonClick(pages.VIDEO)} theme="orange">
+            <svg height="90" viewBox="0 -87 472 472" width="90" xmlns="http://www.w3.org/2000/svg">
+              <path fill="#fff" d="m467.101562 26.527344c-3.039062-1.800782-6.796874-1.871094-9.898437-.179688l-108.296875 59.132813v-35.480469c-.03125-27.601562-22.398438-49.96875-50-50h-248.90625c-27.601562.03125-49.96875 22.398438-50 50v197.421875c.03125 27.601563 22.398438 49.96875 50 50h248.90625c27.601562-.03125 49.96875-22.398437 50-50v-34.835937l108.300781 59.132812c3.097657 1.691406 6.859375 1.625 9.894531-.175781 3.039063-1.804688 4.898438-5.074219 4.898438-8.601563v-227.816406c0-3.53125-1.863281-6.796875-4.898438-8.597656zm-138.203124 220.898437c-.015626 16.5625-13.4375 29.980469-30 30h-248.898438c-16.5625-.019531-29.980469-13.4375-30-30v-197.425781c.019531-16.558594 13.4375-29.980469 30-30h248.90625c16.558594.019531 29.980469 13.441406 30 30zm123.101562-1.335937-103.09375-56.289063v-81.535156l103.09375-56.285156zm0 0"/>
+            </svg>
+          </Baloon>
+          <Baloon theme="purple" handleBaloonClick={() => _handleBaloonClick(pages.PHOTOS)}>
+          <svg width="90" height="90" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 430.23 430.23">
+            <g fill="#fff">
+              <path d="M217.875,159.668c-24.237,0-43.886,19.648-43.886,43.886c0,24.237,19.648,43.886,43.886,43.886
+                c24.237,0,43.886-19.648,43.886-43.886C261.761,179.316,242.113,159.668,217.875,159.668z M217.875,226.541
+                c-12.696,0-22.988-10.292-22.988-22.988c0-12.696,10.292-22.988,22.988-22.988h0c12.696,0,22.988,10.292,22.988,22.988
+                C240.863,216.249,230.571,226.541,217.875,226.541z"/>
+              <path d="M392.896,59.357L107.639,26.966c-11.071-1.574-22.288,1.658-30.824,8.882c-8.535,6.618-14.006,16.428-15.151,27.167
+                l-5.224,42.841H40.243c-22.988,0-40.229,20.375-40.229,43.363V362.9c-0.579,21.921,16.722,40.162,38.644,40.741
+                c0.528,0.014,1.057,0.017,1.585,0.01h286.824c22.988,0,43.886-17.763,43.886-40.751v-8.359
+                c7.127-1.377,13.888-4.224,19.853-8.359c8.465-7.127,13.885-17.22,15.151-28.212l24.033-212.114
+                C432.44,82.815,415.905,62.088,392.896,59.357z M350.055,362.9c0,11.494-11.494,19.853-22.988,19.853H40.243
+                c-10.383,0.305-19.047-7.865-19.352-18.248c-0.016-0.535-0.009-1.07,0.021-1.605v-38.661l80.98-59.559
+                c9.728-7.469,23.43-6.805,32.392,1.567l56.947,50.155c8.648,7.261,19.534,11.32,30.825,11.494
+                c8.828,0.108,17.511-2.243,25.078-6.792l102.922-59.559V362.9z M350.055,236.99l-113.894,66.351
+                c-9.78,5.794-22.159,4.745-30.825-2.612l-57.469-50.678c-16.471-14.153-40.545-15.021-57.992-2.09l-68.963,50.155V149.219
+                c0-11.494,7.837-22.465,19.331-22.465h286.824c12.28,0.509,22.197,10.201,22.988,22.465V236.99z M409.112,103.035
+                c-0.007,0.069-0.013,0.139-0.021,0.208l-24.555,212.114c0.042,5.5-2.466,10.709-6.792,14.106c-2.09,2.09-6.792,3.135-6.792,4.18
+                V149.219c-0.825-23.801-20.077-42.824-43.886-43.363H77.337l4.702-40.751c1.02-5.277,3.779-10.059,7.837-13.584
+                c4.582-3.168,10.122-4.645,15.674-4.18l284.735,32.914C401.773,81.346,410.203,91.545,409.112,103.035z"/>
+            </g>
+          </svg>
+          </Baloon>
+          <Baloon handleBaloonClick={() => _handleBaloonClick(pages.LETTER)} theme="skyblue">
+            <svg xmlns="http://www.w3.org/2000/svg" width="90" height="90" viewBox="0 0 512 512">
+              <g fill="#fff">
+                <path d="M486.4,59.733H25.6c-14.138,0-25.6,11.461-25.6,25.6v341.333c0,14.138,11.461,25.6,25.6,25.6h460.8
+                  c14.138,0,25.6-11.461,25.6-25.6V85.333C512,71.195,500.539,59.733,486.4,59.733z M494.933,426.667
+                  c0,4.713-3.82,8.533-8.533,8.533H25.6c-4.713,0-8.533-3.82-8.533-8.533V85.333c0-4.713,3.82-8.533,8.533-8.533h460.8
+                  c4.713,0,8.533,3.82,8.533,8.533V426.667z"/>
+                <path d="M470.076,93.898c-2.255-0.197-4.496,0.51-6.229,1.966L266.982,261.239c-6.349,5.337-15.616,5.337-21.965,0L48.154,95.863
+                  c-2.335-1.96-5.539-2.526-8.404-1.484c-2.865,1.042-4.957,3.534-5.487,6.537s0.582,6.06,2.917,8.02l196.864,165.367
+                  c12.688,10.683,31.224,10.683,43.913,0L474.82,108.937c1.734-1.455,2.818-3.539,3.015-5.794c0.197-2.255-0.51-4.496-1.966-6.229
+                  C474.415,95.179,472.331,94.095,470.076,93.898z"/>
+                <path d="M164.124,273.13c-3.021-0.674-6.169,0.34-8.229,2.65l-119.467,128c-2.162,2.214-2.956,5.426-2.074,8.392
+                  c0.882,2.967,3.301,5.223,6.321,5.897c3.021,0.674,6.169-0.34,8.229-2.65l119.467-128c2.162-2.214,2.956-5.426,2.074-8.392
+                  C169.563,276.061,167.145,273.804,164.124,273.13z"/>
+                <path d="M356.105,275.78c-2.059-2.31-5.208-3.324-8.229-2.65c-3.021,0.674-5.439,2.931-6.321,5.897
+                  c-0.882,2.967-0.088,6.178,2.074,8.392l119.467,128c3.24,3.318,8.536,3.442,11.927,0.278c3.391-3.164,3.635-8.456,0.549-11.918
+                  L356.105,275.78z"/>
+              </g>
+            </svg>
+          </Baloon>
+        </BallonWrapper>
+      </Fade>
+      <Fade show={showPage === pages.VIDEO}>
+        <VideoPage handleBackClick={handleBackClick} />
+      </Fade>
+      <Fade show={showPage === pages.LETTER}>
+        <LetterPage handleBackClick={handleBackClick} />
+      </Fade>
+      <Fade show={showPage === pages.PHOTOS}>
+        <PhotosPage handleBackClick={handleBackClick} />
+      </Fade>
     </div>
   );
 }
